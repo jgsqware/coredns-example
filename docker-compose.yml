@@ -1,0 +1,34 @@
+version: "2"
+
+services:
+
+  dns: 
+    image: coredns/coredns
+    ports:
+      - "53:53/udp"
+    volumes:
+      - ./Corefile:/Corefile
+      - ./lam.local.hosts:/lam.local.hosts
+  
+  whoami:
+    image: jwilder/whoami
+    ports: 
+      - "8000:8000"
+
+  gitlab:
+    image: gitlab/gitlab-ce:9.0.0-ce.0
+    ports: 
+      - "80"
+    environment: 
+      - "GITLAB_ROOT_PASSWORD=jgsqware"
+      - "GITLAB_SHARED_RUNNERS_REGISTRATION_TOKEN=EzPNSEZFVAEHgFPhWXxK"
+    volumes:
+      - ./gitlab.rb:/etc/gitlab/gitlab.rb
+  
+  caddy:
+    image: abiosoft/caddy:0.9.5
+    #image: jgsqware/caddy:master
+    ports:
+      - "80:80"
+    volumes:
+      - ./caddy/Caddyfile:/etc/Caddyfile:ro

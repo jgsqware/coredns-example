@@ -1,0 +1,34 @@
+
+# http://whoami.lam.local {
+#   log
+#   proxy / whoami:8000
+#   tls off
+# }
+
+http://gitlab.lam.local {
+  log
+  proxy / gitlab:80 {
+    transparent
+  }
+  tls off
+}
+
+http://mattermost.lam.local {
+  log stdout 
+  proxy / gitlab:80 {
+    transparent
+  }
+  tls off
+}
+
+http://www.lam.local {
+  proxy /mattermost gitlab:80 {
+    without /mattermost
+    header_upstream Host mattermost.lam.local
+    header_upstream X-Real-IP {remote}
+    header_upstream X-Forwarded-For {remote}
+    header_upstream X-Forwarded-Proto {scheme}
+  }
+  log stdout
+  
+}

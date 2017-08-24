@@ -1,0 +1,11 @@
+$ttl 38400
+lam.local.      IN      SOA     ns.lam.local. admin.lam.local. (
+                        1488536900
+                        10800
+                        3600
+                        604800
+                        38400 )
+lam.local.      IN      NS      ns.lam.local.
+ns.lam.local.   IN      A       127.0.0.1
+dns.lam.local.  IN      A       127.0.0.1
+*.lam.local.    IN      A       127.0.0.1
